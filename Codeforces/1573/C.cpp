@@ -69,6 +69,8 @@ signed main(){
 			}
 			if (!flg) break;
 		}
+		for (int i=1;i<=n;i++) if (!vis[i]) {flg=false;break;}
+		// 如果有多个环，没有访问完的情况也是 -1！！！太久没写拓扑，忘光了……
 		if (flg) printf("%lld\n",ans); else printf("-1\n");
 		for (int i=1;i<=n;i++) lnk[i]=ind[i]=depth[i]=0,vis[i]=false;
 	}
