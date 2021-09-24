@@ -23,41 +23,38 @@ int n,q;
 
 char s[maxn];
 int sum[maxn];
-map<int,vector<int> > lnk;
 
-int find_b0(int x,int s){
-	vector<int> vec=lnk[x];
-	int l=1,r=vec.size(),ret=-1;
-	while (l<=r){
-		int mid=((r-l)>>1)+l;
-		if (vec[mid-1] >= s) ret=vec[mid-1],l=mid+1;
-		else r=mid-1;
-	}
-	return ret;
+int get_b(int x,int l,int r){
+	return (sum[x-1]-sum[l-1])-(sum[r]-sum[x]);
 }
 
+int find_b0(int l,int r){ // 默认排除边界
+	int ll=l,rr=r,bl=get_b(l,l,r),br=get_b(r,l,r);
+	if (bl==0) return l; if (br==0) return r;
+	while (ll+1 < rr){
+		int mid=((rr-ll)>>1)+ll,bmid=get_b(mid,l,r);
+		if (bmid == 0) return mid; else
+		if (bmid*bl < 0) rr=mid,br=bmid;
+		else ll=mid,bl=bmid;
+	}
+	printf("ERROR: Not found.\n");
+	return 0;
+}
 
 signed main(){
 	t=read();
 	while (t--){
 		memset(sum,0,sizeof(sum));
-		lnk.clear();
 
 		n=read(),q=read();
 		scanf("%s",s+1);
-		for (int i=1;i<=n;i++) sum[i]=sum[i-1] + ((i&1)?1:-1)*((s[i]=='+')?1:-1);
-		for (int i=1;i<=n;i++) lnk[sum[i]+sum[i-1]].push_back(i);
+		for (int i=1;i<=n;i++) sum[i]=sum[i-1]+((i&1)?1:-1)*((s[i]=='+')?1:-1);
 
 		while (q--){
 			int l=read(),r=read();
-			if (sum[r]-sum[l-1] == 0) printf("0\n"); else
-			if ((r-l+1)&1){
-				printf("1\n");
-				printf("%lld\n",find_b0(sum[r]+sum[l-1],l));
-			} else {
-				printf("2\n");
-				printf("%lld %lld\n",l,find_b0(sum[r]+sum[l],l+1));
-			}
+			if (sum[r]-sum[l-1]==0) printf("0\n"); else
+			if ((r-l+1)&1) printf("1\n%lld\n",find_b0(l,r)); else
+			printf("2\n%lld %lld\n",l,find_b0(l+1,r));
 		}
 	}
 	return 0;
