@@ -66,6 +66,19 @@
 		"tuple": "cpp",
 		"type_traits": "cpp",
 		"typeinfo": "cpp",
-		"unordered_map": "cpp"
+		"unordered_map": "cpp",
+		"random": "cpp",
+		"compare": "cpp",
+		"concepts": "cpp",
+		"condition_variable": "cpp",
+		"iomanip": "cpp",
+		"numbers": "cpp",
+		"numeric": "cpp",
+		"semaphore": "cpp",
+		"thread": "cpp",
+		"variant": "cpp",
+		"*.tcc": "cpp",
+		"memory_resource": "cpp",
+		"stop_token": "cpp"
 	}
 }
